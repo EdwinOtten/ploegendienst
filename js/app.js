@@ -20,7 +20,7 @@ const dateFormatOptions = {
 }
 
 /**
- * Format a date to YYYY-MM-DD.
+ * Format a date to a string in Dutch format.
  * @param {Date} date - The date to format.
  * @returns {string} - The formatted date string.
  */
@@ -71,7 +71,8 @@ function generateDateCards() {
         
         cards.push({
             day: getDayInDutch(currentDate),
-            date: formatDate(currentDate),
+            formattedDate: formatDate(currentDate),
+            date: currentDate,
             title,
             description,
             isPast: i < 0,
@@ -89,7 +90,7 @@ function createDateCard(cardData) {
     card.className = `card${cardData.isPast ? ' past' : ''}${cardData.isToday ? ' today' : ''}`;
     
     const dateElement = document.createElement('h5');
-    dateElement.textContent = cardData.date;
+    dateElement.textContent = cardData.formattedDate;
     
     const titleElement = document.createElement('h3');
     titleElement.textContent = cardData.title;
@@ -108,12 +109,25 @@ function createDateCard(cardData) {
     return card;
 }
 
+function scrollToCard(date) {
+    Array.from(document.querySelectorAll('.highlight')).forEach(card => card.classList.remove('highlight'));
+
+    const card = document.querySelector(`.card[data-date="${date.toDateString()}"]`);
+    if (card) {
+        card.classList.add('highlight');
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
 function initializeApp() {
     const container = document.getElementById('card-container');
+    const datepicker = document.getElementById('datepicker');
     const cards = generateDateCards();
     
     cards.forEach(cardData => {
-        container.appendChild(createDateCard(cardData));
+        const card = createDateCard(cardData);
+        card.setAttribute('data-date', cardData.date.toDateString());
+        container.appendChild(card);
     });
     
     // Scroll to today's card
@@ -123,6 +137,12 @@ function initializeApp() {
             todayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
     }
+
+    // Add event listener to datepicker
+    datepicker.addEventListener('change', (event) => {
+        const selectedDate = new Date(event.target.value);
+        scrollToCard(selectedDate);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);

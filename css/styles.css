@@ -6,7 +6,9 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #121212;
+    background: radial-gradient(circle 600vh at 20% 140%, #008c8e, #12121200 15%), 
+    radial-gradient(circle 600vh at 125% 0%, #17003c, #121212 15%);
+    background-attachment: fixed;
     color: #ffffff;
 }
 
@@ -20,7 +22,7 @@ body {
 
 .card {
     position: relative;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(18, 18, 18, 0.5);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     margin: 10px;
@@ -48,8 +50,8 @@ body {
     right: 0;
     bottom: 0;
     border-radius: 8px;
-    border: 2px solid transparent;
-    background: linear-gradient(45deg, #6ef3ff, #7873f5) border-box;
+    border: 1px solid transparent;
+    background: linear-gradient(45deg, #3a9098, #413e8d) border-box;
     -webkit-mask: 
         linear-gradient(#fff 0 0) padding-box, 
         linear-gradient(#fff 0 0);
@@ -70,9 +72,18 @@ body {
     background: #3d265a border-box;
 }
 
-.card.today::before {
+.card.highlight {
+    transform: scale(1.1);
+    background-color: #242727;
+}
+.card.highlight::before {
     border: 3px solid transparent;
     background: linear-gradient(45deg, #4cafa2, #c8ff00) border-box;
+}
+
+.card.today::before {
+    border: 3px solid transparent;
+    background: linear-gradient(45deg, #10c7d7, #9b04a6) border-box;
 }
 
 .card h5 {
@@ -84,4 +95,15 @@ body {
     margin: 5px 0 0;
     font-size: 1em;
     color: #bbb;
+}
+
+.datepicker {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    background: #323232;
+    font-family: 'Roboto';
+    color-scheme: dark;
 }
