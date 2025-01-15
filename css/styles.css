@@ -14,8 +14,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 1200px;
-    margin: 20px;
+    max-width: 1470px;
+    margin: 15px;
 }
 
 .card {
@@ -28,6 +28,16 @@ body {
     text-align: center;
     width: 150px;
     transition: transform 0.2s;
+}
+
+@media (max-width: 1520px) {
+    .container {
+        max-width: 350px;
+    }
+
+    .card {
+        width: 100%;
+    }
 }
 
 .card::before {

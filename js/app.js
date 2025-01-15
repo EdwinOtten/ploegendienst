@@ -55,8 +55,9 @@ function generateDateCards() {
     const today = new Date();
     const startDate = new Date('2022-03-04');
     const msInDay = 24 * 60 * 60 * 1000;
+    const showDaysAgo = 7;
     
-    for (let i = -7; i <= 366; i++) {
+    for (let i = -showDaysAgo; i <= 366; i++) {
         const currentDate = new Date(today);
         currentDate.setDate(today.getDate() + i);
         const daysSinceStart = Math.floor((currentDate - startDate) / msInDay);
