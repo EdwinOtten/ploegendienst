@@ -26,20 +26,47 @@ function formatDate(date) {
 }
 
 /**
- * Generate an array of objects containing the day of the week in Dutch and the date.
- * @returns {Array} - An array of objects with day and date properties.
+ * Get the title and description based on the recurring pattern.
+ * @param {number} daysSinceStart - The number of days since March 4th, 2022.
+ * @returns {Object} - An object containing the title and description.
+ */
+function getTitleAndDescription(daysSinceStart) {
+    const pattern = [
+        { title: "dag", description: "08:00 - 16:00" },
+        { title: "dag", description: "08:00 - 16:00" },
+        { title: "avond", description: "16:00 - 00:00" },
+        { title: "avond", description: "16:00 - 00:00" },
+        { title: "uitslapen", description: "" },
+        { title: "nacht", description: "00:00 - 08:00" },
+        { title: "nacht", description: "00:00 - 08:00" },
+        { title: "weekend", description: "" },
+        { title: "weekend", description: "" },
+        { title: "weekend", description: "" }
+    ];
+    return pattern[daysSinceStart % pattern.length];
+}
+
+/**
+ * Generate an array of objects containing the day of the week in Dutch, the date, title, and description.
+ * @returns {Array} - An array of objects with day, date, title, and description properties.
  */
 function generateDateCards() {
     const cards = [];
     const today = new Date();
+    const startDate = new Date('2022-03-04');
+    const msInDay = 24 * 60 * 60 * 1000;
     
-    // Add past 7 days
     for (let i = -7; i <= 366; i++) {
         const currentDate = new Date(today);
         currentDate.setDate(today.getDate() + i);
+        const daysSinceStart = Math.floor((currentDate - startDate) / msInDay);
+        const { title, description } = getTitleAndDescription(daysSinceStart);
+        
         cards.push({
             day: getDayInDutch(currentDate),
             date: formatDate(currentDate),
+            title,
+            description,
             isPast: i < 0,
             isToday: i === 0
         });
@@ -60,8 +87,16 @@ function createDateCard(cardData) {
     const dateElement = document.createElement('p');
     dateElement.textContent = cardData.date;
     
+    const titleElement = document.createElement('h4');
+    titleElement.textContent = cardData.title;
+    
+    const descriptionElement = document.createElement('p');
+    descriptionElement.textContent = cardData.description;
+    
     card.appendChild(dayElement);
     card.appendChild(dateElement);
+    card.appendChild(titleElement);
+    card.appendChild(descriptionElement);
     
     if (cardData.isToday) {
         card.id = 'today';
