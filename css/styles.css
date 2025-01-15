@@ -20,7 +20,7 @@ body {
 
 .card {
     position: relative;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     margin: 10px;
@@ -71,15 +71,17 @@ body {
 }
 
 .card.today::before {
+    border: 3px solid transparent;
     background: linear-gradient(45deg, #4cafa2, #c8ff00) border-box;
 }
 
-.card h3 {
+.card h5 {
     margin: 0;
-    font-size: 1.5em;
+    color: #bbb;
 }
 
 .card p {
     margin: 5px 0 0;
     font-size: 1em;
+    color: #bbb;
 }

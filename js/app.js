@@ -7,10 +7,16 @@
  */
 function getDayInDutch(date) {
     const daysInDutch = [
-        "zondag", "maandag", "dinsdag", "woensdag", 
-        "donderdag", "vrijdag", "zaterdag"
+        "zo.", "ma.", "di.", "wo.", 
+        "do.", "vr.", "za."
     ];
     return daysInDutch[date.getDay()];
+}
+
+const dateFormatOptions = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
 }
 
 /**
@@ -19,10 +25,7 @@ function getDayInDutch(date) {
  * @returns {string} - The formatted date string.
  */
 function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return date.toLocaleDateString('nl-NL', dateFormatOptions);
 }
 
 /**
@@ -55,7 +58,10 @@ function generateDateCards() {
     const today = new Date();
     const startDate = new Date('2022-03-04');
     const msInDay = 24 * 60 * 60 * 1000;
-    const showDaysAgo = 7;
+    
+    // Calculate the number of days to show before today to start on a Monday
+    const daysSinceMonday = (today.getDay() + 6) % 7;
+    const showDaysAgo = daysSinceMonday + 7;
     
     for (let i = -showDaysAgo; i <= 366; i++) {
         const currentDate = new Date(today);
@@ -82,19 +88,15 @@ function createDateCard(cardData) {
     const card = document.createElement('div');
     card.className = `card${cardData.isPast ? ' past' : ''}${cardData.isToday ? ' today' : ''}`;
     
-    const dayElement = document.createElement('h3');
-    dayElement.textContent = cardData.day;
-    
-    const dateElement = document.createElement('p');
+    const dateElement = document.createElement('h5');
     dateElement.textContent = cardData.date;
     
-    const titleElement = document.createElement('h4');
+    const titleElement = document.createElement('h3');
     titleElement.textContent = cardData.title;
     
     const descriptionElement = document.createElement('p');
     descriptionElement.textContent = cardData.description;
     
-    card.appendChild(dayElement);
     card.appendChild(dateElement);
     card.appendChild(titleElement);
     card.appendChild(descriptionElement);
